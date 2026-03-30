@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavourtown Nightmares | Enter if you dare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 20% 30%, #0a0200, #000000);
+            color: #f7d44a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating ghost effects */
+        .ghost {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 8s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.1; }
+            50% { transform: translateY(-30px) translateX(20px); opacity: 0.3; }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 2.5rem;
+            border-radius: 2rem;
+            border: 2px solid #b33b2c;
+            box-shadow: 0 0 50px #b33b2c88;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .glitch {
+            font-size: 2rem;
+            animation: glitch 2s infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 3px 0 red, -3px 0 blue; }
+            25% { text-shadow: -3px 0 red, 3px 0 blue; }
+            50% { text-shadow: 3px 0 blue, -3px 0 red; }
+            75% { text-shadow: -3px 0 blue, 3px 0 red; }
+        }
+
+        .tagline {
+            color: #ffaa77;
+            margin-bottom: 2rem;
+            font-style: italic;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .horror-stats {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .stat {
+            background: #1a0c08;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border-left: 3px solid #b33b2c;
+        }
+
+        .form-card {
+            background: #0a0503;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .form-card h2 {
+            margin-bottom: 1rem;
+            color: #b33b2c;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 1rem;
+            background: #1a0c08;
+            border: 2px solid #b33b2c;
+            color: #f7d44a;
+            border-radius: 10px;
+            margin: 10px 0;
+            width: 80%;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff6b4a;
+            box-shadow: 0 0 10px #ff6b4a;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-family: monospace;
+            font-weight: bold;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 10px;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #b33b2c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e05a3a;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #e05a3a;
+        }
+
+        .btn-secondary {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1a2a3a;
+            transform: scale(1.05);
+        }
+
+        .form-divider {
+            margin: 1rem 0;
+            color: #6a4a3a;
+        }
+
+        .game-description {
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #aa8866;
+            line-height: 1.5;
+        }
+
+        .error-msg {
+            background: #4a1a0a;
+            color: #ff8888;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid red;
+        }
+
+        /* Jumpscare overlay */
+        .jumpscare-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: jumpscareFlash 0.3s ease;
+        }
+
+        @keyframes jumpscareFlash {
+            0% { background: white; }
+            50% { background: red; }
+            100% { background: black; }
+        }
+
+        .jumpscare-overlay img {
+            max-width: 100%;
+            max-height: 100%;
+            animation: shake 0.2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-10px, 5px); }
+            75% { transform: translate(10px, -5px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating ghosts for atmosphere -->
+    <div class="ghost" style="top: 10%; left: 5%; animation-duration: 7s;">👻</div>
+    <div class="ghost" style="top: 70%; left: 85%; animation-duration: 11s;">💀</div>
+    <div class="ghost" style="top: 40%; left: 90%; animation-duration: 9s;">🍕</div>
+    <div class="ghost" style="top: 80%; left: 10%; animation-duration: 13s;">🩸</div>
+
+    <div class="container">
+        <h1 class="glitch">🍕 FLAVOURTOWN NIGHTMARES 🩸</h1>
+        <p class="tagline">"The Last Slice knows your name..."</p>
+        
+        <div class="horror-stats">
+            <div class="stat">🔪 10 Floors of Terror</div>
+            <div class="stat">🍕 Possessed Pizza</div>
+            <div class="stat">💀 Permadeath Roguelike</div>
+            <div class="stat">🎵 Haunting Soundtrack</div>
+        </div>
+
+        <div class="form-card">
+            <h2>🔐 ENTER THE DINER</h2>
+            <input type="text" id="playerName" placeholder="Your name, survivor..." maxlength="30" autocomplete="off">
+            <br>
+            <button id="startGameBtn" class="btn-primary">🎮 ENTER IF YOU DARE 🎮</button>
+        </div>
+
+        <div class="game-description">
+            <h3>📖 WHAT AWAITS YOU?</h3>
+            <p>You're trapped in an endless haunted diner. Each floor has 3 doors. One leads deeper toward freedom.</p>
+            <p>The others? Death, traps, or <strong>The Last Slice</strong> — a possessed pizza that inches closer every time you choose wrong.</p>
+            <p><strong>Reach Floor 10 to escape. Die? Start over from Floor 1.</strong></p>
+            <p style="margin-top: 10px; color: #ff6666;">⚠️ WARNING: JUMP SCARES & LOUD NOISES ⚠️</p>
+        </div>
+    </div>
+
+    <script>
+        // Background music element (will be created when game starts)
+        let bgMusic = null;
+
+        function playBackgroundMusic() {
+            if (bgMusic) {
+                bgMusic.pause();
+                bgMusic = null;
+            }
+            bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+            bgMusic.loop = true;
+            bgMusic.volume = 0.3;
+            bgMusic.play().catch(e => console.log('Audio play failed:', e));
+        }
+
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            const name = document.getElementById('playerName').value.trim();
+            if (!name) {
+                showError('Enter your name, survivor!');
+                return;
+            }
+            
+            // Save name and start game
+            localStorage.setItem('playerName', name);
+            playBackgroundMusic();
+            
+            // Add jumpscare effect before redirect
+            const overlay = document.createElement('div');
+            overlay.className = 'jumpscare-overlay';
+            overlay.innerHTML = '<div style="font-size: 5rem;">🍕💀</div>';
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                window.location.href = 'game.html';
+            }, 500);
+        });
+
+        function showError(msg) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-msg';
+            errorDiv.innerText = msg;
+            document.querySelector('.form-card').prepend(errorDiv);
+            setTimeout(() => errorDiv.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
